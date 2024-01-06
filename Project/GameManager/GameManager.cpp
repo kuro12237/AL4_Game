@@ -3,7 +3,7 @@
 GameManager::GameManager()
 {
 	Cleyera::Initialize();
-	Scene_ = new GameObject3dTestScene();
+	Scene_ = new GameScene();
 	Scene_->Initialize();
 }
 

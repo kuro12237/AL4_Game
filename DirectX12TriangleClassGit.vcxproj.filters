@@ -133,6 +133,15 @@
     <Filter Include="CLEYERA\Utility\CollisionManager">
       <UniqueIdentifier>{fdcd6478-86f6-4622-a9fa-5a063fc9b748}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Project\GameObject\Player">
+      <UniqueIdentifier>{afa2993f-10b9-4a15-947c-d0449a50a7a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\GameObject\MainCamera">
+      <UniqueIdentifier>{60528a95-55eb-4b44-a5cf-1106e7b491e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\GameObject\Ground">
+      <UniqueIdentifier>{5e9c6006-920e-4c03-99ce-559cbdf2960d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="CLEYERA\Config\.editorconfig">
@@ -284,6 +293,18 @@
     </ClCompile>
     <ClCompile Include="CLEYERA\math\VectorTransform.cpp">
       <Filter>CLEYERA\math\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\Scene\GameScene.cpp">
+      <Filter>Project\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\GameObject\Player\Player.cpp">
+      <Filter>Project\GameObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\GameObject\MainCamera\MainCamera.cpp">
+      <Filter>Project\GameObject\MainCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\GameObject\Ground\Ground.cpp">
+      <Filter>Project\GameObject\Ground</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -478,6 +499,18 @@
     </ClInclude>
     <ClInclude Include="CLEYERA\math\VectorTransform.h">
       <Filter>CLEYERA\math\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\Scene\GameScene.h">
+      <Filter>Project\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\GameObject\Player\Player.h">
+      <Filter>Project\GameObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\GameObject\MainCamera\MainCamera.h">
+      <Filter>Project\GameObject\MainCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\GameObject\Ground\Ground.h">
+      <Filter>Project\GameObject\Ground</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
