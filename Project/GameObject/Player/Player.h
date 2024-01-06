@@ -3,6 +3,7 @@
 #include"Game3dObject.h"
 
 #include"Input.h"
+#include"GameObject/wepon/Weapon.h"
 
 class Player
 {
@@ -33,7 +34,8 @@ private:
 	unique_ptr<Game3dObject>model_ = nullptr;
 	const ViewProjection* CameraViewProjection_ = nullptr;
 
-
 	XINPUT_STATE joyState_{};
+
+	unique_ptr<Weapon>weapon_ = nullptr;
 
 };

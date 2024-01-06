@@ -22,7 +22,6 @@ void GameObject3dTestScene::Update(GameManager* Scene)
 	uint32_t testModel = ModelManager::LoadObjectFile("House");
 	uint32_t testGroundModelHandle = ModelManager::LoadObjectFile("TestGround");
 
-
 	if (Input::PushKey(DIK_P))
 	{
 		gameTestobjA->SetModel(testModel);

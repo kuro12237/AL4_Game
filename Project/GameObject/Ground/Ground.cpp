@@ -6,6 +6,7 @@ void Ground::Initialize()
 	this->gameObject_ = make_unique<Game3dObject>();
 	gameObject_->Create();
 	gameObject_->SetModel(this->modelHandle_);
+	gameObject_->UseLight(true);
 
 	this->worldTransform_.Initialize();
 }

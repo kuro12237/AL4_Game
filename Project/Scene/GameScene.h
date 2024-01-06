@@ -15,6 +15,7 @@
 #include"GameObject/Player/Player.h"
 #include"GameObject/MainCamera/MainCamera.h"
 #include"GameObject/Ground/Ground.h"
+#include"GameObject/Sun/Sun.h"
 
 class GameScene :public IScene
 {
@@ -39,4 +40,5 @@ private:
 	unique_ptr<MainCamera>mainCamera_ = nullptr;
 	unique_ptr<Ground>ground_ = nullptr;
 
+	unique_ptr<Sun>sun_ = nullptr;
 };

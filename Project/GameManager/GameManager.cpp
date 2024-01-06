@@ -19,8 +19,11 @@ void GameManager::Run()
 	{
 		Cleyera::BeginFlame();
 	
+		LightingManager::ClearList();
+
 		Scene_->Update(this);
-		
+
+		LightingManager::TransfarBuffers();
 		
 		Scene_->Back2dSpriteDraw();
 		Scene_->Object3dDraw();

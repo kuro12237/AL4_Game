@@ -13,6 +13,9 @@ void GameScene::Initialize()
 
 	player_->SetViewProjection(&mainCamera_->GetViewProjection());
 
+	sun_ = make_unique<Sun>();
+	sun_->Initialize();
+
 	viewProjection_.Initialize();
 }
 
@@ -22,7 +25,7 @@ void GameScene::Update(GameManager* Scene)
 
 	player_->Update(mainCamera_->GetViewProjection());
 	ground_->Update();
-	
+	sun_->Update();
 	Scene;
 	
 	ImGui::Begin("view");

@@ -5,26 +5,38 @@ void Player::Initialize()
 	this->modelbodyHandle_ = ModelManager::LoadObjectFile("Player");
 
 	worldTransform_.Initialize();
-	worldTransform_.translate.y = 1.0f;
-
+	worldTransform_.translate.y = 0.5f;
 
 	model_ = make_unique<Game3dObject>();
 	model_->Create();
 	model_->SetModel(modelbodyHandle_);
+	model_->UseLight(true);
 
+
+	weapon_ = make_unique<Weapon>();
+	weapon_->Initialize();
+	weapon_->SetParent(worldTransform_);
 }
 
 void Player::Update(const ViewProjection& view)
 {
 	Control(view);
 
+	const float kMoveLimitX = 30.0f;
+	const float kMoveLimitZ = 30.0f;
+	worldTransform_.translate.x = max(worldTransform_.translate.x, -kMoveLimitX);
+	worldTransform_.translate.x = min(worldTransform_.translate.x, kMoveLimitX);
+	worldTransform_.translate.z = max(worldTransform_.translate.z, -kMoveLimitZ);
+	worldTransform_.translate.z = min(worldTransform_.translate.z, kMoveLimitZ);
+
 	worldTransform_.UpdateMatrix();
+	weapon_->Update();
 }
 
 void Player::Draw(ViewProjection view)
 {
 	model_->Draw(worldTransform_, view);
-
+	weapon_->Draw(view);
 }
 
 void Player::Control(const ViewProjection& view)

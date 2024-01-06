@@ -142,6 +142,12 @@
     <Filter Include="Project\GameObject\Ground">
       <UniqueIdentifier>{5e9c6006-920e-4c03-99ce-559cbdf2960d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Project\GameObject\Player\wepon">
+      <UniqueIdentifier>{c94cd9b0-6986-47e7-bd64-d13f221f5be1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\GameObject\Sun">
+      <UniqueIdentifier>{36fbd0cc-8253-4af6-8e98-67b5ac19c550}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="CLEYERA\Config\.editorconfig">
@@ -305,6 +311,10 @@
     </ClCompile>
     <ClCompile Include="Project\GameObject\Ground\Ground.cpp">
       <Filter>Project\GameObject\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\GameObject\wepon\Weapon.cpp" />
+    <ClCompile Include="Project\GameObject\Sun\Sun.cpp">
+      <Filter>Project\GameObject\Sun</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -511,6 +521,10 @@
     </ClInclude>
     <ClInclude Include="Project\GameObject\Ground\Ground.h">
       <Filter>Project\GameObject\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\GameObject\wepon\Weapon.h" />
+    <ClInclude Include="Project\GameObject\Sun\Sun.h">
+      <Filter>Project\GameObject\Sun</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
