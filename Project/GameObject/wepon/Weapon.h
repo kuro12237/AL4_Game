@@ -17,7 +17,11 @@ public:
 
 	const WorldTransform &GetWorldTransform() { return worldTransform_; }
 
+	void Attack();
+
 private:
+
+	bool isAttack_ = false;
 
 	unique_ptr<Game3dObject>gameObject_ = nullptr;
 	WorldTransform worldTransform_;

@@ -16,6 +16,8 @@
 #include"GameObject/MainCamera/MainCamera.h"
 #include"GameObject/Ground/Ground.h"
 #include"GameObject/Sun/Sun.h"
+#include"GameObject/SkyBox/SkyBox.h"
+
 
 class GameScene :public IScene
 {
@@ -38,7 +40,9 @@ private:
 	ViewProjection viewProjection_ = {};
 
 	unique_ptr<MainCamera>mainCamera_ = nullptr;
+	
 	unique_ptr<Ground>ground_ = nullptr;
+	unique_ptr<SkyBox>skyBox_ = nullptr;
 
 	unique_ptr<Sun>sun_ = nullptr;
 };

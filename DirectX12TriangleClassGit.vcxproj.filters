@@ -148,6 +148,9 @@
     <Filter Include="Project\GameObject\Sun">
       <UniqueIdentifier>{36fbd0cc-8253-4af6-8e98-67b5ac19c550}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Project\GameObject\SkyBox">
+      <UniqueIdentifier>{319b74fa-5a4e-4f28-a5df-37a57a0c0f5c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="CLEYERA\Config\.editorconfig">
@@ -315,6 +318,9 @@
     <ClCompile Include="Project\GameObject\wepon\Weapon.cpp" />
     <ClCompile Include="Project\GameObject\Sun\Sun.cpp">
       <Filter>Project\GameObject\Sun</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\GameObject\SkyBox\SkyBox.cpp">
+      <Filter>Project\GameObject\SkyBox</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -525,6 +531,9 @@
     <ClInclude Include="Project\GameObject\wepon\Weapon.h" />
     <ClInclude Include="Project\GameObject\Sun\Sun.h">
       <Filter>Project\GameObject\Sun</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\GameObject\SkyBox\SkyBox.h">
+      <Filter>Project\GameObject\SkyBox</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

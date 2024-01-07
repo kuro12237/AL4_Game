@@ -12,7 +12,6 @@ void Player::Initialize()
 	model_->SetModel(modelbodyHandle_);
 	model_->UseLight(true);
 
-
 	weapon_ = make_unique<Weapon>();
 	weapon_->Initialize();
 	weapon_->SetParent(worldTransform_);
@@ -21,6 +20,8 @@ void Player::Initialize()
 void Player::Update(const ViewProjection& view)
 {
 	Control(view);
+
+	Attack();
 
 	const float kMoveLimitX = 30.0f;
 	const float kMoveLimitZ = 30.0f;
@@ -39,6 +40,11 @@ void Player::Draw(ViewProjection view)
 	weapon_->Draw(view);
 }
 
+void Player::OnCollision(uint32_t id)
+{
+	id;
+}
+
 void Player::Control(const ViewProjection& view)
 {
 	view;
@@ -46,7 +52,6 @@ void Player::Control(const ViewProjection& view)
 	Vector3 Move{};
 	bool isMove = false;
 	Vector3 Rotate{};
-
 
 	if (Input::GetJoystickState(joyState_))
 	{
@@ -82,6 +87,7 @@ void Player::Control(const ViewProjection& view)
 			
 		}
 	}
+
 	worldTransform_.rotation = VectorTransform::Add(worldTransform_.rotation, Rotate);
 
 	if (isMove)
@@ -95,9 +101,29 @@ void Player::Control(const ViewProjection& view)
 		destinationAngleY_ = std::atan2(Move.x, Move.z);
 	}
 
-
 }
 
+void Player::Attack()
+{
+	if (Input::GetJoystickState(joyState_))
+	{
+		if (joyState_.Gamepad.bRightTrigger && !isAttack_)
+		{
+			weapon_->Attack();
+			isAttack_ = true;
+		}
+	}
+
+	if (isAttack_)
+	{
+		AttackCoolTime_++;
+		if (AttackCoolTime_ > AttackCoolTimeMax_)
+		{
+			isAttack_ = false;
+			AttackCoolTime_ = 0;
+		}
+	}
+}
 
 float Player::LerpShortAngle(const float& a, const float& b, float t) {
 	//角度差分を求める

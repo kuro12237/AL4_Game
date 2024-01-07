@@ -16,6 +16,9 @@ void GameScene::Initialize()
 	sun_ = make_unique<Sun>();
 	sun_->Initialize();
 
+	skyBox_ = make_unique<SkyBox>();
+	skyBox_->Initialize();
+
 	viewProjection_.Initialize();
 }
 
@@ -25,14 +28,12 @@ void GameScene::Update(GameManager* Scene)
 
 	player_->Update(mainCamera_->GetViewProjection());
 	ground_->Update();
+	skyBox_->Update();
 	sun_->Update();
 	Scene;
 	
-	ImGui::Begin("view");
-	ImGui::DragFloat3("translate", &viewProjection_.translation_.x, -0.1f, 0.1f);
-	ImGui::End();
 	
-	//viewProjection_.UpdateMatrix();
+
 	viewProjection_ = mainCamera_->GetViewProjection();
 }
 
@@ -44,6 +45,7 @@ void GameScene::Object3dDraw()
 {
 	player_->Draw(viewProjection_);
 	ground_->Draw(viewProjection_);
+	skyBox_->Draw(viewProjection_);
 }
 
 void GameScene::Flont2dSpriteDraw()
