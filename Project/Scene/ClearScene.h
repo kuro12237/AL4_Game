@@ -22,6 +22,16 @@ private:
 	unique_ptr<Ground>ground_ = nullptr;
 	unique_ptr<SkyBox>skyBox_ = nullptr;
 	unique_ptr<Sun>sun_ = nullptr;
+	
+	unique_ptr<Sprite>pushASprite_ = nullptr;
+	WorldTransform pushAWorldTrasform_ = {};
+
+	unique_ptr<Sprite>clearTextSprite_ = nullptr;
+	WorldTransform clearWorldTransform_ = {};
+
+	unique_ptr<Game3dObject>gameObject_ = nullptr;
+	WorldTransform worldTransform_ = {};
 
 	ViewProjection viewProjection_ = {};
+
 };

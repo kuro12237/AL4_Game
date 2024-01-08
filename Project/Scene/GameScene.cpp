@@ -32,6 +32,12 @@ void GameScene::Initialize()
 	killcount_ = make_unique<KillCount>();
 	killcount_->Initialize();
 
+	controlSprite_ = make_unique<Sprite>();
+	controlSprite_->Initialize(new SpriteBoxState);
+	controlSprite_->SetTexHandle(TextureManager::LoadTexture("ControlText.png"));
+
+	controlWorldTransform_.Initialize();
+
 	viewProjection_.Initialize();
 }
 
@@ -83,6 +89,7 @@ void GameScene::Update(GameManager* Scene)
 		sun_->Update();
 		killcount_->Update(enemyKillCount_);
 		missionWorldTransform_.UpdateMatrix();
+		controlWorldTransform_.UpdateMatrix();
 		Scene;
 	}
 
@@ -129,6 +136,7 @@ void GameScene::Flont2dSpriteDraw()
 	player_->ParticleDraw(viewProjection_);
 	player_->SpriteDraw(viewProjection_);
 	missionSprite_->Draw(missionWorldTransform_, viewProjection_);
+	controlSprite_->Draw(controlWorldTransform_, viewProjection_);
 	killcount_->Draw(viewProjection_);
 }
 

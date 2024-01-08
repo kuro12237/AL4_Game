@@ -86,4 +86,6 @@ private:
 
 	unique_ptr<KillCount>killcount_ = nullptr;
 
+	unique_ptr<Sprite>controlSprite_ = nullptr;
+	WorldTransform controlWorldTransform_ = {};
 };

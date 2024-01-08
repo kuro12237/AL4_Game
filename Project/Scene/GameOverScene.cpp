@@ -19,32 +19,38 @@ void GameOverScene::Initialize()
 	gameObject_->SetModel(ModelManager::LoadObjectFile("Enemy"));
 	gameObject_->UseLight(true);
 	worldTransform_.Initialize();
-	worldTransform_.rotation.x = 1.5f;
-	worldTransform_.translate.z = 10.0f;
+	
+	worldTransform_.rotation.y = 3.1f;
+	worldTransform_.translate.z = 20.0f;
 	worldTransform_.scale = { 0.5f,0.5f,0.5f };
 	worldTransform_.translate.y = 0.5f;
+
+	pushASprite_ = make_unique<Sprite>();
+	pushASprite_->Initialize(new SpriteBoxState);
+	pushASprite_->SetTexHandle(TextureManager::LoadTexture("PushA.png"));
+	pushAWorldTrasform_.Initialize();
 }
 
 void GameOverScene::Update(GameManager* Scene)
 {
-	ImGui::Begin("GameOver");
-	ImGui::End();
+
 	XINPUT_STATE joystate;
 	if (Input::GetJoystickState(joystate))
 	{
-
 		if (joystate.Gamepad.wButtons & XINPUT_GAMEPAD_A)
 		{
 			Scene->ChangeState(new TitleScene);
 			return;
 		}
 	}
-	worldTransform_.rotation.y += 0.1f;
+	
+	worldTransform_.translate.z -= 0.1f;
 	sun_->SetColor(ColorConverter::ColorVec4Conversion(0x5F2F2FFF));
 	sun_->Update();
 	skyBox_->Update();
 	ground_->Update();
 	worldTransform_.UpdateMatrix();
+	pushAWorldTrasform_.UpdateMatrix();
 	viewProjection_.UpdateMatrix();
 }
 
@@ -61,4 +67,5 @@ void GameOverScene::Object3dDraw()
 \
 void GameOverScene::Flont2dSpriteDraw()
 {
+	pushASprite_->Draw(pushAWorldTrasform_, viewProjection_);
 }
