@@ -21,6 +21,7 @@ void PlayerBullet::Initialize(Vector3 pos, Vector3 v)
 
 	SetCollosionAttribute(kCollisionAttributePlayer);
 	SetCollisionMask(kCollisionMaskPlayer);
+	SetID(0x00010);
 }
 
 void PlayerBullet::Update()

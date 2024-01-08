@@ -20,12 +20,9 @@ void GameScene::Initialize()
 
 	player_->SetViewProjection(&mainCamera_->GetViewProjection());
 
-
-	testEnemy_ = make_unique<Enemy>();
-	testEnemy_->Initialize({0.0f,0.0f,12.0f});
-
 	collisionManager_ = make_unique<CollisionManager>();
 
+	
 	viewProjection_.Initialize();
 }
 
@@ -36,21 +33,48 @@ void GameScene::Update(GameManager* Scene)
 
 	player_->Update(mainCamera_->GetViewProjection());
 
-	
-	testEnemy_->Update();
+	if (Input::PushKeyPressed(DIK_Y))
+	{
+		shared_ptr<Enemy>testEnemy_ = nullptr;
+		testEnemy_ = make_shared<Enemy>();
+		testEnemy_->Initialize({ 0.0f,0.0f,12.0f });
+		enemys_.push_back(testEnemy_);
+	}
+
+	EnemysSpown();
+
+	for (shared_ptr<Enemy>enemy : enemys_)
+	{
+		enemy->Update();
+	}
+
+	ImGui::Begin("size");
+	ImGui::Text("%d", uint32_t(enemys_.size()));
+	ImGui::Text("%d", enemyCount_);
+	ImGui::End();
+
+	if (enemys_.remove_if([](shared_ptr<Enemy> enemy) {
+
+		if (!enemy->GetIsAlive()) {
+			enemy.reset();
+
+			return true;
+		}
+
+		return false;
+
+		})) {
+		if (enemyCount_ >= 0)
+		{
+			enemyCount_--;
+		}
+	}
 
 	ground_->Update();
 	skyBox_->Update();
 	sun_->Update();
 	Scene;
 	
-	if (Input::PushKeyPressed(DIK_P))
-	{
-		LogManager::Log("r\n");
-	}
-
-
-
 	viewProjection_ = mainCamera_->GetViewProjection();
 }
 
@@ -62,13 +86,17 @@ void GameScene::Object3dDraw()
 {
 	player_->Draw(viewProjection_);
 
-	testEnemy_->Draw(viewProjection_);
+	for (shared_ptr<Enemy>enemy : enemys_)
+	{
+		enemy->Draw(viewProjection_);
+	}
 	ground_->Draw(viewProjection_);
-	//skyBox_->Draw(viewProjection_);
+	skyBox_->Draw(viewProjection_);
 }
 
 void GameScene::Flont2dSpriteDraw()
 {
+	player_->ParticleDraw(viewProjection_);
 }
 
 void GameScene::Collision()
@@ -82,7 +110,41 @@ void GameScene::Collision()
 		collisionManager_->ColliderOBBPushBack(bullet.get());
 	}
 
-	collisionManager_->ColliderOBBPushBack(testEnemy_.get());
+	for (shared_ptr<Enemy>enemy : enemys_)
+	{
+		collisionManager_->ColliderOBBPushBack(enemy.get());
+	}
 
 	collisionManager_->CheckAllCollision();
+}
+
+void GameScene::EnemysSpown()
+{
+	mt19937 randomEngine(seedGenerator());
+	
+	enemysSpownTimer_++;
+	if (enemysSpownTimer_ > enemysSpownTimerMax_)
+	{
+		isEnemysSpown_ = true;
+		enemysSpownTimer_ = 0;
+	}
+
+	if (isEnemysSpown_ && enemyCount_ <= enemyMax_)
+	{
+		mt19937 randomEngine(seedGenerator());
+		uniform_real_distribution<float>distribution(-14.0f,14.0f);
+		
+		Vector3 SpownPosition = {};
+		SpownPosition.x = distribution(randomEngine);
+		SpownPosition.y = 0;
+		SpownPosition.z = distribution(randomEngine);
+
+		shared_ptr<Enemy>testEnemy_ = nullptr;
+		testEnemy_ = make_shared<Enemy>();
+		testEnemy_->Initialize(SpownPosition);
+		enemys_.push_back(testEnemy_);
+		enemyCount_++;
+		isEnemysSpown_ = false;
+	}
+
 }

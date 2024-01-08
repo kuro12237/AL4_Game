@@ -45,12 +45,16 @@ PixelShaderOutput main(VertexShaderOutput input) {
 
 	PixelShaderOutput output;
 
-	float32_t4 textureColor = gTexture.Sample(gSampler, input.texcoord);
+	float4 transformedUV = mul(float32_t4(input.texcoord.r, input.texcoord.g, 0.0f, 1.0f), gMaterial.uv);
+
+	float32_t4 textureColor = gTexture.Sample(gSampler, transformedUV.rg);
 
 	float32_t3 toEye = normalize(gTransformationViewMatrix.CameraPosition - input.worldPosition);
 
 	float32_t3 pTotalSpecular = 0;
 	float32_t3 pTotalDffuse = 0;
+
+	
 
 	//atten 0.5,0.6,0.0
 	float32_t atten = 0;

@@ -19,6 +19,8 @@
 #include"GameObject/SkyBox/SkyBox.h"
 #include"GameObject/Enemy/Enemy.h"
 
+#include"GameObject/HitParticle/HitParticle.h"
+
 class GameScene :public IScene
 {
 public:
@@ -38,6 +40,8 @@ private:
 
 	void Collision();
 
+	void EnemysSpown();
+
 	ViewProjection viewProjection_ = {};
 
 	unique_ptr<Ground>ground_ = nullptr;
@@ -48,7 +52,17 @@ private:
 
 	unique_ptr<Player>player_ = nullptr;
 
-	unique_ptr<Enemy>testEnemy_ = nullptr;
+	list<shared_ptr<Enemy>>enemys_ = {};
+
+	uint32_t enemysSpownTimer_ = 0;
+	uint32_t enemysSpownTimerMax_ = 180;
+	bool isEnemysSpown_ = false;
+
+	uint32_t enemyMax_ = 20;
+	uint32_t enemyCount_ = 0;
+
+	random_device seedGenerator;
+
 
 	unique_ptr<CollisionManager>collisionManager_ = nullptr;
 };

@@ -14,10 +14,18 @@ void Player::Initialize()
 
 	reticleWorldTransform.Initialize();
 
+	hitParticle_ = make_unique<HitParticle>();
+	hitParticle_->Initialize({ 0,0,0 });
+
+	bulletLine_ = make_unique<PlayerBulletLine>();
+	bulletLine_->Initialize(worldTransform_);
+	
+
 	SetSize({0.5f,0.5f,0.5f});
 
 	SetCollosionAttribute(kCollisionAttributePlayer);
 	SetCollisionMask(kCollisionMaskPlayer);
+	SetID(0x00001);
 }
 
 void Player::Update(const ViewProjection& view)
@@ -34,14 +42,22 @@ void Player::Update(const ViewProjection& view)
 	for (shared_ptr<PlayerBullet>& bullet : bullets_)
 	{
 		bullet->Update();
+		if (!bullet->GetIsAlive())
+		{
+			hitParticle_->Spown(bullet->GetWorldPosition());
+		}
 	}
+	bulletLine_->Update();
 
-	bullets_.remove_if([](shared_ptr<PlayerBullet> bullet) {
+	hitParticle_->Update();
+
+	bullets_.remove_if([](shared_ptr<PlayerBullet> bullet){
 
 		if (!bullet->GetIsAlive()) {
 			bullet.reset();
 			return true;
 		}
+		
 		return false;
 
 	});
@@ -59,12 +75,19 @@ void Player::Draw(ViewProjection view)
 	{
 		bullet->Draw(view);
 	}
-
+	bulletLine_->Draw(view);
+	
 }
 
 void Player::OnCollision(uint32_t id)
 {
 	id;
+
+}
+
+void Player::ParticleDraw(ViewProjection view)
+{
+	hitParticle_->Draw(view);
 }
 
 void Player::Control(const ViewProjection& view)

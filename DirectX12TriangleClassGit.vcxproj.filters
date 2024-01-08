@@ -151,6 +151,12 @@
     <Filter Include="Project\GameObject\Enemy">
       <UniqueIdentifier>{4b8869fd-10a6-44f9-8f00-5dcf367baded}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Project\GameObject\Player\HitParticle">
+      <UniqueIdentifier>{afe41d42-eead-45cc-bc3f-d78f1332023d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\GameObject\Player\BulletLine">
+      <UniqueIdentifier>{378eb8cd-5653-42c2-8f18-4396113c7ad3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="CLEYERA\Config\.editorconfig">
@@ -324,7 +330,15 @@
     <ClCompile Include="Project\GameObject\Enemy\Enemy.cpp">
       <Filter>Project\GameObject\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Project\GameObject\Player\PlayerBullet.cpp" />
+    <ClCompile Include="Project\GameObject\Player\PlayerBullet.cpp">
+      <Filter>Project\GameObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\GameObject\HitParticle\HitParticle.cpp">
+      <Filter>Project\GameObject\Player\HitParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\GameObject\Player\PlayerBulletLine.cpp">
+      <Filter>Project\GameObject\Player\BulletLine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CLEYERA\Utility\Pch\Pch.h">
@@ -542,6 +556,12 @@
     </ClInclude>
     <ClInclude Include="Project\GameObject\Player\PlayerBullet.h">
       <Filter>Project\GameObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\GameObject\HitParticle\HitParticle.h">
+      <Filter>Project\GameObject\Player\HitParticle</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\GameObject\Player\PlayerBulletLine.h">
+      <Filter>Project\GameObject\Player\BulletLine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

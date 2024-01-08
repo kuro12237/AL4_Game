@@ -16,7 +16,8 @@ public:
 
 #pragma region Set
 
-	void SetUvScale(Vector3 s) { uvScale_ = s; }
+	void SetUvScale(Vector3 s) { uvScale_ = s;
+	}
 	void SetUvRotate(Vector3 r) { uvRotate = r; }
 	void SetTranslate(Vector3 t) { uvTranslate = t; }
 

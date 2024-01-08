@@ -8,16 +8,68 @@ void Enemy::Initialize(Vector3 spownPos)
 	gameObject_->SetModel(ModelHandle_);
 	gameObject_->UseLight(true);
 	worldTransform_.Initialize();
+	worldTransform_.scale = {};
 	worldTransform_.translate = spownPos;
 	worldTransform_.translate.y += 0.5f;
 	worldTransform_.UpdateMatrix();
 	SetSize({ 1.0f,1.0f,1.0f });
+	
 	SetCollosionAttribute(kCollisionAttributeEnemy);
 	SetCollisionMask(kCollisionMaskEnemy);
+	SetID(0x00100);
+
+	mt19937 randomEngine(seedGenerator());
+	uniform_real_distribution<float>distribution(-0.7f, 0.7f);
+
+	velocity_ = { distribution(randomEngine),0.0f,distribution(randomEngine) };
+
 }
 
 void Enemy::Update()
 {
+	
+
+
+	if (isHit_)
+	{
+		worldTransform_.scale = VectorTransform::Add(worldTransform_.scale, { -0.05f,-0.05f,-0.05f });
+		if (worldTransform_.scale.x <= 0.0f && worldTransform_.scale.y <= 0.0f && worldTransform_.scale.z <= 0.0f)
+		{
+			isAlive_ = false;
+		}
+	}
+
+	const float kMoveLimitX = 30.0f;
+	const float kMoveLimitZ = 30.0f;
+	worldTransform_.translate.x = max(worldTransform_.translate.x, -kMoveLimitX);
+	worldTransform_.translate.x = min(worldTransform_.translate.x, kMoveLimitX);
+	worldTransform_.translate.z = max(worldTransform_.translate.z, -kMoveLimitZ);
+	worldTransform_.translate.z = min(worldTransform_.translate.z, kMoveLimitZ);
+
+	if (worldTransform_.translate.x >= kMoveLimitX || worldTransform_.translate.x <= -kMoveLimitX)
+	{
+		velocity_.x = velocity_.x * -1;
+	}
+
+	if (worldTransform_.translate.z >= kMoveLimitZ || worldTransform_.translate.z <= -kMoveLimitZ)
+	{
+		velocity_.z = velocity_.z * -1;
+	}
+
+	if (!isHit_)
+	{
+		if (isSpownAnimationFlag_)
+		{
+			worldTransform_.scale = VectorTransform::Add(worldTransform_.scale, { 0.05f,0.05f,0.05f });
+			if (worldTransform_.scale.x >= 1.0f && worldTransform_.scale.y >= 1.0f && worldTransform_.scale.z >= 1.0)
+			{
+				isSpownAnimationFlag_ = false;
+			}
+
+		}
+		worldTransform_.translate = VectorTransform::Add(worldTransform_.translate, velocity_);
+	}
+
 	OBBCollider::SetSize({ 1.0f,1.0f,1.0f });
 	OBBCollider::SetRotate(this->worldTransform_.rotation);
 	worldTransform_.UpdateMatrix();
@@ -40,5 +92,21 @@ Vector3 Enemy::GetWorldPosition()
 
 void Enemy::OnCollision(uint32_t id)
 {
-	id;
+	
+	if (!isHit_)
+	{
+		if (id == 0x00001)
+		{
+			
+		}
+		if (id == 0x00010)
+		{
+			isHit_ = true;
+		}
+		if (id==0x00100)
+		{
+			velocity_.x = velocity_.x * -1;
+			velocity_.y = velocity_.y * -1;
+		}
+	}
 }

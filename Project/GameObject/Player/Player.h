@@ -6,6 +6,8 @@
 #include"OBBCollider.h"
 #include"ColliderConfig.h"
 #include"PlayerBullet.h"
+#include"GameObject/HitParticle/HitParticle.h"
+#include"GameObject/Player/PlayerBulletLine.h"
 
 enum AnimationPlayerMove
 {
@@ -39,6 +41,8 @@ public:
 
 	list<shared_ptr<PlayerBullet>>GetBullets() { return bullets_; }
 
+	void ParticleDraw(ViewProjection view);
+
 private:
 
 	void Control(const ViewProjection& view);
@@ -69,5 +73,10 @@ private:
 	WorldTransform reticleWorldTransform = {};
 
 	list<shared_ptr<PlayerBullet>>bullets_ = {};
+	unique_ptr<HitParticle>hitParticle_ = nullptr;
+
 	Vector3 RPNormalize = {};
+
+	unique_ptr<PlayerBulletLine>bulletLine_ = nullptr;
+
 };
