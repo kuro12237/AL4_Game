@@ -18,6 +18,9 @@ void Sun::Update()
 	ImGui::DragFloat("radiouns", &sun_.radious, -0.1f, 0.1f);
 	ImGui::DragFloat3("pos", &sun_.position.x, -0.1f, 0.1f);
 	ImGui::End();
+	//#5F2F2FFF
+
+	sun_.color = color_;
 	LightingManager::AddList(sun_);
 }
 

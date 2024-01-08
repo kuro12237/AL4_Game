@@ -57,6 +57,7 @@ void GameScene::Update(GameManager* Scene)
 		ImGui::Begin("size");
 		ImGui::Text("%d", uint32_t(enemys_.size()));
 		ImGui::Text("%d", enemyCount_);
+		ImGui::Text("killcount %d", enemyKillCount_);
 		ImGui::End();
 
 		if (enemys_.remove_if([](shared_ptr<Enemy> enemy) {
