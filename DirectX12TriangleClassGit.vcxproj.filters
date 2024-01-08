@@ -157,6 +157,18 @@
     <Filter Include="Project\GameObject\Player\BulletLine">
       <UniqueIdentifier>{378eb8cd-5653-42c2-8f18-4396113c7ad3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CLEYERA\Utility\ColorConverter">
+      <UniqueIdentifier>{87b44881-e2ed-4086-9e49-af050c6a7e2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Scene\Title">
+      <UniqueIdentifier>{3a4f9b65-884d-4df8-8ee8-9a1f29a896aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Scene\Clear">
+      <UniqueIdentifier>{aa654653-18c5-498e-bbb4-6f7dc19ab01b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Scene\GameOver">
+      <UniqueIdentifier>{1ca1d977-b97c-4f89-9128-9048c05d5604}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="CLEYERA\Config\.editorconfig">
@@ -270,9 +282,6 @@
     <ClCompile Include="Project\Scene\CreatePhongModelScene.cpp">
       <Filter>Project\Scene\CreatePhongModelScene</Filter>
     </ClCompile>
-    <ClCompile Include="Project\Scene\MTScene.cpp">
-      <Filter>Project\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="CLEYERA\math\Quaternion\QuaternionTransform.cpp">
       <Filter>CLEYERA\math\Quaternion</Filter>
     </ClCompile>
@@ -293,9 +302,6 @@
     </ClCompile>
     <ClCompile Include="CLEYERA\Model\Game3dObject.cpp">
       <Filter>CLEYERA\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Project\Scene\GameObject3dTest.cpp">
-      <Filter>Project\Scene</Filter>
     </ClCompile>
     <ClCompile Include="CLEYERA\Utility\CollisionManager\CollisionManager.cpp">
       <Filter>CLEYERA\Utility\CollisionManager</Filter>
@@ -339,6 +345,19 @@
     <ClCompile Include="Project\GameObject\Player\PlayerBulletLine.cpp">
       <Filter>Project\GameObject\Player\BulletLine</Filter>
     </ClCompile>
+    <ClCompile Include="CLEYERA\Utility\ColorConverter\ColorConverter.cpp">
+      <Filter>CLEYERA\Utility\ColorConverter</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\Scene\TitleScene.cpp">
+      <Filter>Project\Scene\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\Scene\ClearScene.cpp">
+      <Filter>Project\Scene\Clear</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\Scene\GameOverScene.cpp">
+      <Filter>Project\Scene\GameOver</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\GameObject\killCount\KillCount.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CLEYERA\Utility\Pch\Pch.h">
@@ -464,9 +483,6 @@
     <ClInclude Include="Project\Scene\CreatePhongModelScene.h">
       <Filter>Project\Scene\CreatePhongModelScene</Filter>
     </ClInclude>
-    <ClInclude Include="Project\Scene\MTScene.h">
-      <Filter>Project\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="CLEYERA\math\Quaternion\QuaternionTransform.h">
       <Filter>CLEYERA\math\Quaternion</Filter>
     </ClInclude>
@@ -499,9 +515,6 @@
     </ClInclude>
     <ClInclude Include="CLEYERA\Model\Game3dObject.h">
       <Filter>CLEYERA\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Project\Scene\GameObject3dTest.h">
-      <Filter>Project\Scene</Filter>
     </ClInclude>
     <ClInclude Include="CLEYERA\Utility\CollisionManager\CollisionManager.h">
       <Filter>CLEYERA\Utility\CollisionManager</Filter>
@@ -562,6 +575,21 @@
     </ClInclude>
     <ClInclude Include="Project\GameObject\Player\PlayerBulletLine.h">
       <Filter>Project\GameObject\Player\BulletLine</Filter>
+    </ClInclude>
+    <ClInclude Include="CLEYERA\Utility\ColorConverter\ColorConverter.h">
+      <Filter>CLEYERA\Utility\ColorConverter</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\Scene\TitleScene.h">
+      <Filter>Project\Scene\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\Scene\ClearScene.h">
+      <Filter>Project\Scene\Clear</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\Scene\GameOverScene.h">
+      <Filter>Project\Scene\GameOver</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\GameObject\killCount\KillCount.h">
+      <Filter>Project\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

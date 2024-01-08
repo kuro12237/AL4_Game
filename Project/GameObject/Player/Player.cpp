@@ -20,6 +20,36 @@ void Player::Initialize()
 	bulletLine_ = make_unique<PlayerBulletLine>();
 	bulletLine_->Initialize(worldTransform_);
 	
+	hitTexHandle_ = TextureManager::LoadTexture("HitTex.png");
+	hitTexSprite_ = make_unique<Sprite>();
+	hitTexSprite_->Initialize(new SpriteBoxState);
+	hitTexSprite_->SetTexHandle(hitTexHandle_);
+	hitSpriteWorldTransform_.Initialize();
+
+	lifeTexHandle = TextureManager::LoadTexture("HP/Life.png");
+	for (int i = 0; i < 2; i++)
+	{
+		hpSprite_[i] = make_unique<Sprite>();
+		hpSprite_[i]->Initialize(new SpriteBoxState);
+		hpSprite_[i]->SetTexHandle(lifeTexHandle);
+		hpWorldTransform_[i].Initialize();
+		hpWorldTransform_[i].translate.x = 32.0f;
+		hpWorldTransform_[i].translate.y = 660.0f;
+		hpWorldTransform_[i].scale.y = 0.5f;
+		hpWorldTransform_[i].scale.x = 0.75f;
+		if (i == 1)
+		{
+			
+			hpWorldTransform_[i].translate.x += 90.0f;
+		}
+	}
+
+	uint32_t hpTextTexHandle = TextureManager::LoadTexture("HP/HpText.png");
+
+	hpSpriteText_ = make_unique<Sprite>();
+	hpSpriteText_->Initialize(new SpriteBoxState);
+	hpSpriteText_->SetTexHandle(hpTextTexHandle);
+	hpTextWorldTransform_.Initialize();
 
 	SetSize({0.5f,0.5f,0.5f});
 
@@ -30,37 +60,41 @@ void Player::Initialize()
 
 void Player::Update(const ViewProjection& view)
 {
+	
 	if (!isAttack_)
 	{
 		Control(view);
 	}
+	MoveLimit();
 	Attack();
+
 	AnimationMove();
 
-	worldTransform_.UpdateMatrix();
-	
-	for (shared_ptr<PlayerBullet>& bullet : bullets_)
+	if (isHitFlag_)
 	{
-		bullet->Update();
-		if (!bullet->GetIsAlive())
+		hitCoolTimer_++;
+		hitColor_.w -= 0.01f;
+		hitTexSprite_->SetColor(hitColor_);
+		if (hitCoolTimer_ >= 120)
 		{
-			hitParticle_->Spown(bullet->GetWorldPosition());
+			hitCoolTimer_ = 0;
+			hitColor_ = { 1.0f,1.0f,1.0f,1.0f };
+			isHitFlag_ = false;
 		}
 	}
-	bulletLine_->Update();
+
+
+	worldTransform_.UpdateMatrix();
+	BulletsUpdate();
 
 	hitParticle_->Update();
+	hitSpriteWorldTransform_.UpdateMatrix();
+	hpTextWorldTransform_.UpdateMatrix();
 
-	bullets_.remove_if([](shared_ptr<PlayerBullet> bullet){
-
-		if (!bullet->GetIsAlive()) {
-			bullet.reset();
-			return true;
-		}
-		
-		return false;
-
-	});
+	for (int i = 0; i < 2; i++)
+	{
+		hpWorldTransform_[i].UpdateMatrix();
+	}
 
 	OBBCollider::SetSize({ 1.0f,1.0f,1.0f });
 	OBBCollider::SetRotate(this->worldTransform_.rotation);
@@ -75,6 +109,7 @@ void Player::Draw(ViewProjection view)
 	{
 		bullet->Draw(view);
 	}
+	
 	bulletLine_->Draw(view);
 	
 }
@@ -82,12 +117,29 @@ void Player::Draw(ViewProjection view)
 void Player::OnCollision(uint32_t id)
 {
 	id;
-
+	if (!isHitFlag_)
+	{
+		Hp_--;
+		isHitFlag_ = true;
+	}
 }
 
 void Player::ParticleDraw(ViewProjection view)
 {
+	if (isHitFlag_)
+	{
+		hitTexSprite_->Draw(hitSpriteWorldTransform_, view);
+	}
 	hitParticle_->Draw(view);
+}
+
+void Player::SpriteDraw(ViewProjection view)
+{
+	for (uint32_t i = 0; i < Hp_; i++)
+	{
+		hpSprite_[i]->Draw(hpWorldTransform_[i], view);
+	}
+	hpSpriteText_->Draw(hpTextWorldTransform_, view);
 }
 
 void Player::Control(const ViewProjection& view)
@@ -150,14 +202,6 @@ void Player::Control(const ViewProjection& view)
 
 void Player::Attack()
 {
-
-	const float kMoveLimitX = 30.0f;
-	const float kMoveLimitZ = 30.0f;
-	worldTransform_.translate.x = max(worldTransform_.translate.x, -kMoveLimitX);
-	worldTransform_.translate.x = min(worldTransform_.translate.x, kMoveLimitX);
-	worldTransform_.translate.z = max(worldTransform_.translate.z, -kMoveLimitZ);
-	worldTransform_.translate.z = min(worldTransform_.translate.z, kMoveLimitZ);
-
 	Vector3 Ppos{};
 	Ppos.x = worldTransform_.matWorld.m[3][0];
 	Ppos.y = worldTransform_.matWorld.m[3][1];
@@ -210,6 +254,43 @@ void Player::Attack()
 void Player::AnimationMove()
 {
 
+}
+
+void Player::MoveLimit()
+{
+	const float kMoveLimitX = 30.0f;
+	const float kMoveLimitZ = 30.0f;
+	worldTransform_.translate.x = max(worldTransform_.translate.x, -kMoveLimitX);
+	worldTransform_.translate.x = min(worldTransform_.translate.x, kMoveLimitX);
+	worldTransform_.translate.z = max(worldTransform_.translate.z, -kMoveLimitZ);
+	worldTransform_.translate.z = min(worldTransform_.translate.z, kMoveLimitZ);
+
+}
+
+void Player::BulletsUpdate()
+{
+
+	for (shared_ptr<PlayerBullet>& bullet : bullets_)
+	{
+		bullet->Update();
+		if (!bullet->GetIsAlive())
+		{
+			hitParticle_->Spown(bullet->GetWorldPosition());
+		}
+	}
+	bulletLine_->Update();
+
+
+	bullets_.remove_if([](shared_ptr<PlayerBullet> bullet) {
+
+		if (!bullet->GetIsAlive()) {
+			bullet.reset();
+			return true;
+		}
+
+		return false;
+
+		});
 }
 
 float Player::LerpShortAngle(const float& a, const float& b, float t) {

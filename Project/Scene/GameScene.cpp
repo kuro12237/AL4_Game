@@ -22,60 +22,89 @@ void GameScene::Initialize()
 
 	collisionManager_ = make_unique<CollisionManager>();
 
+	uint32_t texHandle = TextureManager::LoadTexture("missionTex.png");
+	missionSprite_ = make_unique<Sprite>();
+	missionSprite_->Initialize(new SpriteBoxState);
+	missionSprite_->SetTexHandle(texHandle);
+
+	missionWorldTransform_.Initialize();
 	
+	killcount_ = make_unique<KillCount>();
+	killcount_->Initialize();
+
 	viewProjection_.Initialize();
 }
 
 void GameScene::Update(GameManager* Scene)
 {
-	Collision();
-	mainCamera_->Update(player_->GetWorldTransform());
 
-	player_->Update(mainCamera_->GetViewProjection());
-
-	if (Input::PushKeyPressed(DIK_Y))
+	if (!GameStop_)
 	{
-		shared_ptr<Enemy>testEnemy_ = nullptr;
-		testEnemy_ = make_shared<Enemy>();
-		testEnemy_->Initialize({ 0.0f,0.0f,12.0f });
-		enemys_.push_back(testEnemy_);
-	}
 
-	EnemysSpown();
 
-	for (shared_ptr<Enemy>enemy : enemys_)
-	{
-		enemy->Update();
-	}
+		Collision();
+		mainCamera_->Update(player_->GetWorldTransform());
 
-	ImGui::Begin("size");
-	ImGui::Text("%d", uint32_t(enemys_.size()));
-	ImGui::Text("%d", enemyCount_);
-	ImGui::End();
+		player_->Update(mainCamera_->GetViewProjection());
 
-	if (enemys_.remove_if([](shared_ptr<Enemy> enemy) {
+		EnemysSpown();
 
-		if (!enemy->GetIsAlive()) {
-			enemy.reset();
-
-			return true;
-		}
-
-		return false;
-
-		})) {
-		if (enemyCount_ >= 0)
+		for (shared_ptr<Enemy>enemy : enemys_)
 		{
-			enemyCount_--;
+			enemy->Update(player_->GetIsHit());
 		}
+
+		ImGui::Begin("size");
+		ImGui::Text("%d", uint32_t(enemys_.size()));
+		ImGui::Text("%d", enemyCount_);
+		ImGui::End();
+
+		if (enemys_.remove_if([](shared_ptr<Enemy> enemy) {
+
+			if (!enemy->GetIsAlive()) {
+				enemy.reset();
+
+				return true;
+			}
+
+			return false;
+
+			})) {
+			if (enemyCount_ >= 0)
+			{
+				enemyKillCount_++;
+				enemyCount_--;
+			}
+		}
+
+		ground_->Update();
+		skyBox_->Update();
+		sun_->Update();
+		killcount_->Update(enemyKillCount_);
+		missionWorldTransform_.UpdateMatrix();
+		Scene;
 	}
 
-	ground_->Update();
-	skyBox_->Update();
-	sun_->Update();
-	Scene;
-	
 	viewProjection_ = mainCamera_->GetViewProjection();
+	
+	if (!GameStop_)
+	{
+		if (player_->GetHp() == 0)
+		{
+			GameStop_ = true;
+			Scene->ChangeState(new GameOverScene);
+			return;
+		}
+		if (enemyKillCount_ >= 15)
+		{
+			GameStop_ = true;
+			Scene->ChangeState(new ClearScene);
+			return;
+		}
+
+
+	}
+
 }
 
 void GameScene::Back2dSpriteDraw()
@@ -97,6 +126,9 @@ void GameScene::Object3dDraw()
 void GameScene::Flont2dSpriteDraw()
 {
 	player_->ParticleDraw(viewProjection_);
+	player_->SpriteDraw(viewProjection_);
+	missionSprite_->Draw(missionWorldTransform_, viewProjection_);
+	killcount_->Draw(viewProjection_);
 }
 
 void GameScene::Collision()
@@ -139,9 +171,32 @@ void GameScene::EnemysSpown()
 		SpownPosition.y = 0;
 		SpownPosition.z = distribution(randomEngine);
 
+		
+		uniform_int_distribution<int>colorDistribution(1,4);
+		
+		uint32_t resultRandColor = colorDistribution(randomEngine);
+
+		uint32_t colorCode = 0xffffffff;
+		if (resultRandColor == RED)
+		{
+			colorCode = 0xff7f7fff;
+		}
+		if (resultRandColor == BLUE)
+		{
+			colorCode = 0x7f7fff;
+		}
+		if (resultRandColor == GREEN)
+		{
+			colorCode = 0xbfff7fff;
+		}
+		if (resultRandColor == WHITE)
+		{
+			colorCode = 0xffffffff;
+		}
+		
 		shared_ptr<Enemy>testEnemy_ = nullptr;
 		testEnemy_ = make_shared<Enemy>();
-		testEnemy_->Initialize(SpownPosition);
+		testEnemy_->Initialize(SpownPosition,colorCode);
 		enemys_.push_back(testEnemy_);
 		enemyCount_++;
 		isEnemysSpown_ = false;

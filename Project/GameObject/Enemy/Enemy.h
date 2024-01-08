@@ -2,6 +2,7 @@
 #include"Game3dObject.h"
 #include"OBBCollider.h"
 #include"ColliderConfig.h"
+#include"Utility/ColorConverter/ColorConverter.h"
 
 class Enemy:public OBBCollider
 {
@@ -9,9 +10,9 @@ public:
 	Enemy() {};
 	~Enemy() {};
 
-	void Initialize(Vector3 spownPos);
+	void Initialize(Vector3 spownPos,uint32_t colorCode);
 
-	void Update();
+	void Update(bool PlayerHitFlag);
 
 	void Draw(ViewProjection view);
 
@@ -34,5 +35,5 @@ private:
 	bool isAlive_ = true;
 	bool isHit_ = false;
 	bool isSpownAnimationFlag_ = true;
-
+	bool isPlayerHitFlag_ = false;
 };

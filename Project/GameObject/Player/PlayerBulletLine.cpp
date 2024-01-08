@@ -8,7 +8,7 @@ void PlayerBulletLine::Initialize(const WorldTransform& worldTransform)
 	gameObject_->SetModel(modelHandle_);
 	gameObject_->UseLight(true);
 
-	//uint32_t tex = TextureManager::LoadTexture();
+
 	worldTransform_.Initialize();
 	worldTransform_.parent = &worldTransform;
 	worldTransform_.translate.y = -0.4f;

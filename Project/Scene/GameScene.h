@@ -21,6 +21,18 @@
 
 #include"GameObject/HitParticle/HitParticle.h"
 
+#include"GameOverScene.h"
+#include"ClearScene.h"
+#include"GameObject/killCount/KillCount.h"
+
+enum ColorCase
+{
+	RED = 1,
+	GREEN = 2,
+	BLUE = 3,
+	WHITE = 4,
+};
+
 class GameScene :public IScene
 {
 public:
@@ -63,6 +75,15 @@ private:
 
 	random_device seedGenerator;
 
-
 	unique_ptr<CollisionManager>collisionManager_ = nullptr;
+
+	uint32_t enemyKillCount_ = 0;
+
+	bool GameStop_ = false;
+
+	unique_ptr<Sprite>missionSprite_ = nullptr;
+	WorldTransform missionWorldTransform_{};
+
+	unique_ptr<KillCount>killcount_ = nullptr;
+
 };

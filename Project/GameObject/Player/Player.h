@@ -8,6 +8,7 @@
 #include"PlayerBullet.h"
 #include"GameObject/HitParticle/HitParticle.h"
 #include"GameObject/Player/PlayerBulletLine.h"
+#include"Sprite/Sprite.h"
 
 enum AnimationPlayerMove
 {
@@ -43,6 +44,12 @@ public:
 
 	void ParticleDraw(ViewProjection view);
 
+	void SpriteDraw(ViewProjection view);
+
+	bool GetIsHit() { return isHitFlag_; }
+
+	uint32_t GetHp() { return Hp_; }
+
 private:
 
 	void Control(const ViewProjection& view);
@@ -52,6 +59,10 @@ private:
 	void Attack();
 
 	void AnimationMove();
+
+	void MoveLimit();
+
+	void BulletsUpdate();
 
 	bool isAttack_ = false;
 	bool prevIsAttack = false;
@@ -79,4 +90,19 @@ private:
 
 	unique_ptr<PlayerBulletLine>bulletLine_ = nullptr;
 
+	uint32_t hitTexHandle_ = 0;
+	unique_ptr<Sprite>hitTexSprite_ = nullptr;
+	WorldTransform hitSpriteWorldTransform_{};
+	
+	bool isHitFlag_ = false;
+	
+	uint32_t hitCoolTimer_ = 0;
+	Vector4 hitColor_ = { 1.0f,1.0f,1.0f,1.0f };
+
+	uint32_t Hp_ = 2;
+	uint32_t lifeTexHandle = 0;
+	unique_ptr<Sprite>hpSpriteText_ = nullptr;
+	WorldTransform hpTextWorldTransform_ = {};
+	unique_ptr<Sprite>hpSprite_[2] = {};
+	WorldTransform hpWorldTransform_[2]{};
 };

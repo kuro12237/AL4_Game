@@ -10,9 +10,7 @@ void MainCamera::Initialize()
 void MainCamera::Update(const WorldTransform& worldTransform)
 {
 	viewProjection_.translation_ = worldTransform.translate;
-	ImGui::Begin("view");
-	ImGui::DragFloat3("translate", &viewProjection_.translation_.x, -0.1f, 0.1f);
-	ImGui::End();
+	
 	
 	Vector3 offset =offset_;
 	Vector3 Lerp = VectorTransform::Lerp(worldTransform.translate, viewProjection_.translation_, 1.0f);

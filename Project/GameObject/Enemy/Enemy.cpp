@@ -1,6 +1,6 @@
 #include "Enemy.h"
 
-void Enemy::Initialize(Vector3 spownPos)
+void Enemy::Initialize(Vector3 spownPos, uint32_t colorCode)
 {
 	ModelHandle_ = ModelManager::LoadObjectFile("Enemy");
 	gameObject_ = make_unique<Game3dObject>();
@@ -17,6 +17,10 @@ void Enemy::Initialize(Vector3 spownPos)
 	SetCollosionAttribute(kCollisionAttributeEnemy);
 	SetCollisionMask(kCollisionMaskEnemy);
 	SetID(0x00100);
+	
+	Vector4 color = ColorConverter::ColorVec4Conversion(colorCode);
+
+	gameObject_->SetColor(color);
 
 	mt19937 randomEngine(seedGenerator());
 	uniform_real_distribution<float>distribution(-0.7f, 0.7f);
@@ -25,14 +29,16 @@ void Enemy::Initialize(Vector3 spownPos)
 
 }
 
-void Enemy::Update()
+void Enemy::Update(bool PlayerHitFlag)
 {
-	
+	isPlayerHitFlag_ = PlayerHitFlag;
+
 
 
 	if (isHit_)
 	{
 		worldTransform_.scale = VectorTransform::Add(worldTransform_.scale, { -0.05f,-0.05f,-0.05f });
+		worldTransform_.rotation.y += 0.3f;
 		if (worldTransform_.scale.x <= 0.0f && worldTransform_.scale.y <= 0.0f && worldTransform_.scale.z <= 0.0f)
 		{
 			isAlive_ = false;
@@ -58,6 +64,13 @@ void Enemy::Update()
 
 	if (!isHit_)
 	{
+		float velocityXZ = sqrt(velocity_.x * velocity_.x + velocity_.z * velocity_.z);
+
+		float heightY = -velocity_.y;
+
+		worldTransform_.rotation.y = std::atan2(velocity_.x, velocity_.z);
+		worldTransform_.rotation.x = std::atan2(heightY, velocityXZ);
+
 		if (isSpownAnimationFlag_)
 		{
 			worldTransform_.scale = VectorTransform::Add(worldTransform_.scale, { 0.05f,0.05f,0.05f });
@@ -101,7 +114,9 @@ void Enemy::OnCollision(uint32_t id)
 		}
 		if (id == 0x00010)
 		{
+		
 			isHit_ = true;
+			
 		}
 		if (id==0x00100)
 		{
