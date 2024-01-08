@@ -3,8 +3,15 @@
 #include"Game3dObject.h"
 
 #include"Input.h"
-#include"GameObject/wepon/Weapon.h"
 #include"OBBCollider.h"
+#include"ColliderConfig.h"
+#include"PlayerBullet.h"
+
+enum AnimationPlayerMove
+{
+	UP,
+	DOWN
+};
 
 class Player : public OBBCollider
 {
@@ -26,6 +33,12 @@ public:
 
 	void OnCollision(uint32_t id) override;
 
+	bool GetIsAttack() { return isAttack_; }
+
+	bool GetPrevAttack() { return prevIsAttack; }
+
+	list<shared_ptr<PlayerBullet>>GetBullets() { return bullets_; }
+
 private:
 
 	void Control(const ViewProjection& view);
@@ -34,10 +47,13 @@ private:
 	
 	void Attack();
 
+	void AnimationMove();
+
 	bool isAttack_ = false;
+	bool prevIsAttack = false;
 
 	int32_t AttackCoolTime_ = 0;
-	const int32_t AttackCoolTimeMax_ = 120;
+	const int32_t AttackCoolTimeMax_ = 20;
 
 	uint32_t modelbodyHandle_ = 0;
 	float destinationAngleY_ = 0.0f;
@@ -48,6 +64,10 @@ private:
 
 	XINPUT_STATE joyState_{};
 
-	unique_ptr<Weapon>weapon_ = nullptr;
+	AnimationPlayerMove MoveAnimationCase = UP;
 
+	WorldTransform reticleWorldTransform = {};
+
+	list<shared_ptr<PlayerBullet>>bullets_ = {};
+	Vector3 RPNormalize = {};
 };

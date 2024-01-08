@@ -142,14 +142,14 @@
     <Filter Include="Project\GameObject\Ground">
       <UniqueIdentifier>{5e9c6006-920e-4c03-99ce-559cbdf2960d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Project\GameObject\Player\wepon">
-      <UniqueIdentifier>{c94cd9b0-6986-47e7-bd64-d13f221f5be1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Project\GameObject\Sun">
       <UniqueIdentifier>{36fbd0cc-8253-4af6-8e98-67b5ac19c550}</UniqueIdentifier>
     </Filter>
     <Filter Include="Project\GameObject\SkyBox">
       <UniqueIdentifier>{319b74fa-5a4e-4f28-a5df-37a57a0c0f5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\GameObject\Enemy">
+      <UniqueIdentifier>{4b8869fd-10a6-44f9-8f00-5dcf367baded}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -315,13 +315,16 @@
     <ClCompile Include="Project\GameObject\Ground\Ground.cpp">
       <Filter>Project\GameObject\Ground</Filter>
     </ClCompile>
-    <ClCompile Include="Project\GameObject\wepon\Weapon.cpp" />
     <ClCompile Include="Project\GameObject\Sun\Sun.cpp">
       <Filter>Project\GameObject\Sun</Filter>
     </ClCompile>
     <ClCompile Include="Project\GameObject\SkyBox\SkyBox.cpp">
       <Filter>Project\GameObject\SkyBox</Filter>
     </ClCompile>
+    <ClCompile Include="Project\GameObject\Enemy\Enemy.cpp">
+      <Filter>Project\GameObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\GameObject\Player\PlayerBullet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CLEYERA\Utility\Pch\Pch.h">
@@ -528,12 +531,17 @@
     <ClInclude Include="Project\GameObject\Ground\Ground.h">
       <Filter>Project\GameObject\Ground</Filter>
     </ClInclude>
-    <ClInclude Include="Project\GameObject\wepon\Weapon.h" />
     <ClInclude Include="Project\GameObject\Sun\Sun.h">
       <Filter>Project\GameObject\Sun</Filter>
     </ClInclude>
     <ClInclude Include="Project\GameObject\SkyBox\SkyBox.h">
       <Filter>Project\GameObject\SkyBox</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\GameObject\Enemy\Enemy.h">
+      <Filter>Project\GameObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\GameObject\Player\PlayerBullet.h">
+      <Filter>Project\GameObject\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

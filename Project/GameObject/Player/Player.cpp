@@ -12,32 +12,54 @@ void Player::Initialize()
 	model_->SetModel(modelbodyHandle_);
 	model_->UseLight(true);
 
-	weapon_ = make_unique<Weapon>();
-	weapon_->Initialize();
-	weapon_->SetParent(worldTransform_);
+	reticleWorldTransform.Initialize();
+
+	SetSize({0.5f,0.5f,0.5f});
+
+	SetCollosionAttribute(kCollisionAttributePlayer);
+	SetCollisionMask(kCollisionMaskPlayer);
 }
 
 void Player::Update(const ViewProjection& view)
 {
-	Control(view);
-
+	if (!isAttack_)
+	{
+		Control(view);
+	}
 	Attack();
-
-	const float kMoveLimitX = 30.0f;
-	const float kMoveLimitZ = 30.0f;
-	worldTransform_.translate.x = max(worldTransform_.translate.x, -kMoveLimitX);
-	worldTransform_.translate.x = min(worldTransform_.translate.x, kMoveLimitX);
-	worldTransform_.translate.z = max(worldTransform_.translate.z, -kMoveLimitZ);
-	worldTransform_.translate.z = min(worldTransform_.translate.z, kMoveLimitZ);
+	AnimationMove();
 
 	worldTransform_.UpdateMatrix();
-	weapon_->Update();
+	
+	for (shared_ptr<PlayerBullet>& bullet : bullets_)
+	{
+		bullet->Update();
+	}
+
+	bullets_.remove_if([](shared_ptr<PlayerBullet> bullet) {
+
+		if (!bullet->GetIsAlive()) {
+			bullet.reset();
+			return true;
+		}
+		return false;
+
+	});
+
+	OBBCollider::SetSize({ 1.0f,1.0f,1.0f });
+	OBBCollider::SetRotate(this->worldTransform_.rotation);
 }
 
 void Player::Draw(ViewProjection view)
 {
+
 	model_->Draw(worldTransform_, view);
-	weapon_->Draw(view);
+
+	for (shared_ptr<PlayerBullet>& bullet : bullets_)
+	{
+		bullet->Draw(view);
+	}
+
 }
 
 void Player::OnCollision(uint32_t id)
@@ -105,11 +127,47 @@ void Player::Control(const ViewProjection& view)
 
 void Player::Attack()
 {
+
+	const float kMoveLimitX = 30.0f;
+	const float kMoveLimitZ = 30.0f;
+	worldTransform_.translate.x = max(worldTransform_.translate.x, -kMoveLimitX);
+	worldTransform_.translate.x = min(worldTransform_.translate.x, kMoveLimitX);
+	worldTransform_.translate.z = max(worldTransform_.translate.z, -kMoveLimitZ);
+	worldTransform_.translate.z = min(worldTransform_.translate.z, kMoveLimitZ);
+
+	Vector3 Ppos{};
+	Ppos.x = worldTransform_.matWorld.m[3][0];
+	Ppos.y = worldTransform_.matWorld.m[3][1];
+	Ppos.z = worldTransform_.matWorld.m[3][2];
+	worldTransform_.UpdateMatrix();
+
+	const float kDistancePlayerTo3DReticle = 40.0f;
+	Vector3 offset = { 0.0f, 0.0f, 1.0f };
+
+	offset = VectorTransform::TransformNormal(offset, worldTransform_.matWorld);
+	offset = VectorTransform::Normalize(offset);
+	offset = VectorTransform::Multiply(offset, kDistancePlayerTo3DReticle);
+
+	reticleWorldTransform.translate = VectorTransform::Add(offset, Ppos);
+	reticleWorldTransform.UpdateMatrix();
+
+	Vector3 Rpos{};
+	Rpos.x = reticleWorldTransform.matWorld.m[3][0];
+	Rpos.y = reticleWorldTransform.matWorld.m[3][1];
+	Rpos.z = reticleWorldTransform.matWorld.m[3][2];
+
+	RPNormalize = VectorTransform::Subtruct(Rpos, Ppos);
+	RPNormalize = VectorTransform::Normalize(RPNormalize);
+
+
+	prevIsAttack = isAttack_;
 	if (Input::GetJoystickState(joyState_))
 	{
 		if (joyState_.Gamepad.bRightTrigger && !isAttack_)
 		{
-			weapon_->Attack();
+			shared_ptr<PlayerBullet> bullet = make_shared<PlayerBullet>();
+			bullet->Initialize(worldTransform_.translate,RPNormalize);
+			bullets_.push_back(bullet);
 			isAttack_ = true;
 		}
 	}
@@ -123,6 +181,12 @@ void Player::Attack()
 			AttackCoolTime_ = 0;
 		}
 	}
+
+}
+
+void Player::AnimationMove()
+{
+
 }
 
 float Player::LerpShortAngle(const float& a, const float& b, float t) {

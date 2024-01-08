@@ -17,7 +17,7 @@
 #include"GameObject/Ground/Ground.h"
 #include"GameObject/Sun/Sun.h"
 #include"GameObject/SkyBox/SkyBox.h"
-
+#include"GameObject/Enemy/Enemy.h"
 
 class GameScene :public IScene
 {
@@ -36,13 +36,19 @@ public:
 	void Flont2dSpriteDraw()override;
 private:
 
-	unique_ptr<Player>player_ = nullptr;
+	void Collision();
+
 	ViewProjection viewProjection_ = {};
 
-	unique_ptr<MainCamera>mainCamera_ = nullptr;
-	
 	unique_ptr<Ground>ground_ = nullptr;
 	unique_ptr<SkyBox>skyBox_ = nullptr;
-
 	unique_ptr<Sun>sun_ = nullptr;
+
+	unique_ptr<MainCamera>mainCamera_ = nullptr;
+
+	unique_ptr<Player>player_ = nullptr;
+
+	unique_ptr<Enemy>testEnemy_ = nullptr;
+
+	unique_ptr<CollisionManager>collisionManager_ = nullptr;
 };
