@@ -31,7 +31,6 @@ void PlayerBullet::Update()
 
 	timer_++;
 
-
 	if (timer_>=120)
 	{
 		isAlive = false;
