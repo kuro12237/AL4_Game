@@ -42,22 +42,48 @@ void SceneChange::Initialize()
 
 void SceneChange::Update()
 {
+    int scaleCount = 0;
     for (uint32_t s = 0; s < SpriteMax; s++)
     {
-        if (SceneChange::Getinstance()->StartFlag_)
+        if (SceneChange::Getinstance()->StartfinishFlag_)
         {
-            SceneChange::Getinstance()->worldTransform_[s].scale.x -= 0.01f;
-            SceneChange::Getinstance()->worldTransform_[s].scale.y -= 0.01f;
-            SceneChange::Getinstance()->worldTransform_[s].scale.z -= 0.01f;
+            SceneChange::Getinstance()->worldTransform_[s].scale.x -= 0.05f;
+            SceneChange::Getinstance()->worldTransform_[s].scale.y -= 0.05f;
+            SceneChange::Getinstance()->worldTransform_[s].scale.z -= 0.05f;
+
+            if (SceneChange::Getinstance()->worldTransform_[s].scale.x <= 0.0f)
+            {
+                scaleCount ++;
+            }
+            if (scaleCount>=SpriteMax)
+            {
+                SceneChange::Getinstance()->EndFlag_ = false;
+                SceneChange::Getinstance()->StartFlag_ = false;
+                SceneChange::Getinstance()->StartfinishFlag_ = false;
+                SceneChange::Getinstance()->EndFinishFlag_ = true;
+            }
+
+        }
+
+        if (SceneChange::Getinstance()->StartFlag_&&!SceneChange::Getinstance()->StartfinishFlag_)
+        {
+            SceneChange::Getinstance()->EndFinishFlag_ = false;
+            SceneChange::Getinstance()->worldTransform_[s].scale.x += 0.075f;
+            SceneChange::Getinstance()->worldTransform_[s].scale.y += 0.075f;
+            SceneChange::Getinstance()->worldTransform_[s].scale.z += 0.075f;
 
             if (SceneChange::Getinstance()->worldTransform_[s].scale.x>=1.0f)
             {
+                scaleCount++;
+            }
+            if (scaleCount>=SpriteMax)
+            {
                 SceneChange::Getinstance()->StartFlag_ = false;
                 SceneChange::Getinstance()->StartfinishFlag_ = true;
+                SceneChange::Getinstance()->EndFlag_ = true;
             }
+
         }
-
-
         SceneChange::Getinstance()->worldTransform_[s].UpdateMatrix();
     }
 
@@ -73,4 +99,9 @@ void SceneChange::Draw(ViewProjection view)
 
 void SceneChange::Start()
 {
+    if (!SceneChange::Getinstance()->StartFlag_&&SceneChange::Getinstance()->EndFinishFlag_)
+    {
+        SceneChange::Getinstance()->StartFlag_ = true;
+    }
+
 }

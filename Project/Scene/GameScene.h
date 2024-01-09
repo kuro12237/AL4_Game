@@ -24,6 +24,7 @@
 #include"GameOverScene.h"
 #include"ClearScene.h"
 #include"GameObject/killCount/KillCount.h"
+#include"GameObject/SceneChange/SceneChange.h"
 
 enum ColorCase
 {
@@ -79,7 +80,7 @@ private:
 
 	uint32_t enemyKillCount_ = 0;
 
-	bool GameStop_ = false;
+	bool GameStop_ = true;
 
 	unique_ptr<Sprite>missionSprite_ = nullptr;
 	WorldTransform missionWorldTransform_{};

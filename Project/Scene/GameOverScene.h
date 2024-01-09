@@ -2,6 +2,7 @@
 #include"IScene.h"
 #include"GameManager.h"
 #include"TitleScene.h"
+#include"GameObject/SceneChange/SceneChange.h"
 
 class GameOverScene :public IScene
 {

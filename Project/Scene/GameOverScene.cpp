@@ -41,17 +41,19 @@ void GameOverScene::Initialize()
 void GameOverScene::Update(GameManager* Scene)
 {
 
-	XINPUT_STATE joystate;
-	if (Input::GetJoystickState(joystate))
-	{
-		if (joystate.Gamepad.wButtons & XINPUT_GAMEPAD_A)
+		XINPUT_STATE joystate;
+		if (Input::GetJoystickState(joystate))
 		{
-			Scene->ChangeState(new TitleScene);
-			return;
+			if (joystate.Gamepad.wButtons & XINPUT_GAMEPAD_A)
+			{
+				Scene->ChangeState(new TitleScene);
+				return;
+				
+			}
 		}
-	}
-	
-	worldTransform_.translate.z -= 0.1f;
+
+		worldTransform_.translate.z -= 0.1f;
+
 	sun_->SetColor(ColorConverter::ColorVec4Conversion(0x5F2F2FFF));
 	sun_->Update();
 	skyBox_->Update();
@@ -76,4 +78,5 @@ void GameOverScene::Flont2dSpriteDraw()
 {
 	OverTextSprite_->Draw(OverTextWorldTransform_, viewProjection_);
 	pushASprite_->Draw(pushAWorldTrasform_, viewProjection_);
+	//SceneChange::Draw(viewProjection_);
 }

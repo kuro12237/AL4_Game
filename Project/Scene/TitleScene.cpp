@@ -56,29 +56,45 @@ void TitleScene::Initialize()
 
 void TitleScene::Update(GameManager* Scene)
 {
-	
-	XINPUT_STATE joystate;
-	if (Input::GetJoystickState(joystate))
+	SceneChange::Update();
+	if (SceneChange::GetEndFinishFlag())
 	{
-		
-		if (joystate.Gamepad.wButtons&XINPUT_GAMEPAD_B)
+		GameStop_ = false;
+
+	}
+	if (!GameStop_)
+	{
+
+		XINPUT_STATE joystate;
+		if (Input::GetJoystickState(joystate))
+		{
+
+			if (joystate.Gamepad.wButtons & XINPUT_GAMEPAD_B)
+			{
+				SceneChange::Start();
+
+
+			}
+		}
+
+		if (SceneChange::GetStartFinishFlag())
 		{
 			Scene->ChangeState(new GameScene);
-			return ;
+			return;
 		}
-	}
 
-	pushBDrawFlagCount_++;
-	if (pushBDrawFlagCount_ >= 40)
-	{
-		if (isPushBDrawFlag_)
+		pushBDrawFlagCount_++;
+		if (pushBDrawFlagCount_ >= 40)
 		{
-			isPushBDrawFlag_ = false;
+			if (isPushBDrawFlag_)
+			{
+				isPushBDrawFlag_ = false;
+			}
+			else {
+				isPushBDrawFlag_ = true;
+			}
+			pushBDrawFlagCount_ = 0;
 		}
-		else {
-			isPushBDrawFlag_ = true;
-		}
-		pushBDrawFlagCount_ = 0;
 	}
 
 	ground_->Update();
@@ -88,7 +104,7 @@ void TitleScene::Update(GameManager* Scene)
 	leftEnemyWorldTransform_.UpdateMatrix();
 	rightEnemyWorldTransform_.UpdateMatrix();
 	pushBWorldTransform_.UpdateMatrix();
-	SceneChange::Update();
+	
 	viewProjection_.UpdateMatrix();
 }
 

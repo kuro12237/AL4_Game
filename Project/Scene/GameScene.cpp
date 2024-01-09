@@ -39,10 +39,15 @@ void GameScene::Initialize()
 	controlWorldTransform_.Initialize();
 
 	viewProjection_.Initialize();
+	mainCamera_->Update(player_->GetWorldTransform());
+
+	player_->Update(mainCamera_->GetViewProjection());
+
 }
 
 void GameScene::Update(GameManager* Scene)
 {
+
 
 	if (!GameStop_)
 	{
@@ -60,12 +65,7 @@ void GameScene::Update(GameManager* Scene)
 			enemy->Update(player_->GetIsHit());
 		}
 
-		ImGui::Begin("size");
-		ImGui::Text("%d", uint32_t(enemys_.size()));
-		ImGui::Text("%d", enemyCount_);
-		ImGui::Text("killcount %d", enemyKillCount_);
-		ImGui::End();
-
+	
 		if (enemys_.remove_if([](shared_ptr<Enemy> enemy) {
 
 			if (!enemy->GetIsAlive()) {
@@ -83,36 +83,51 @@ void GameScene::Update(GameManager* Scene)
 				enemyCount_--;
 			}
 		}
-
-		ground_->Update();
-		skyBox_->Update();
-		sun_->Update();
-		killcount_->Update(enemyKillCount_);
-		missionWorldTransform_.UpdateMatrix();
-		controlWorldTransform_.UpdateMatrix();
-		Scene;
 	}
-
+	ground_->Update();
+	skyBox_->Update();
+	sun_->Update();
+	killcount_->Update(enemyKillCount_);
+	missionWorldTransform_.UpdateMatrix();
+	controlWorldTransform_.UpdateMatrix();
+	Scene;
+	
+	if (GameStop_)
+	{
+		if (SceneChange::GetEndFinishFlag())
+		{
+			GameStop_ = false;
+		}
+	}
 	viewProjection_ = mainCamera_->GetViewProjection();
 	
-	if (!GameStop_)
+	//if (!GameStop_)
 	{
 		if (player_->GetHp() == 0)
 		{
 			GameStop_ = true;
-			Scene->ChangeState(new GameOverScene);
-			return;
+			
+			if (SceneChange::GetStartFinishFlag())
+			{
+				Scene->ChangeState(new GameOverScene);
+				return;
+			}
+			
+			SceneChange::Start();
+			
 		}
 		if (enemyKillCount_ >= 15)
 		{
 			GameStop_ = true;
-			Scene->ChangeState(new ClearScene);
-			return;
+			SceneChange::Start();
+			if (SceneChange::GetStartFinishFlag())
+			{
+				Scene->ChangeState(new ClearScene);
+				return;
+			}
 		}
-
-
 	}
-
+	SceneChange::Update();
 }
 
 void GameScene::Back2dSpriteDraw()
@@ -138,6 +153,7 @@ void GameScene::Flont2dSpriteDraw()
 	missionSprite_->Draw(missionWorldTransform_, viewProjection_);
 	controlSprite_->Draw(controlWorldTransform_, viewProjection_);
 	killcount_->Draw(viewProjection_);
+	SceneChange::Draw(viewProjection_);
 }
 
 void GameScene::Collision()

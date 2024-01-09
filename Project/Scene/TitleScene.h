@@ -48,4 +48,6 @@ private:
 
 	bool isPushBDrawFlag_ = false;
 	uint32_t pushBDrawFlagCount_ = 0;
+
+	bool GameStop_ = true;
 };
