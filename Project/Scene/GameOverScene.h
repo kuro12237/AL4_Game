@@ -34,4 +34,7 @@ private:
 	unique_ptr<Sprite>pushASprite_ = nullptr;
 	WorldTransform pushAWorldTrasform_ = {};
 
+	bool isPushADrawFlag_ = false;
+
+	uint32_t pushADrawFlagCount_ = 0;
 };

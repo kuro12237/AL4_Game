@@ -2,6 +2,7 @@
 #include"IScene.h"
 #include"GameManager.h"
 #include"TitleScene.h"
+#include"GameObject/FireParticles/FireParticle.h"
 
 class ClearScene :public IScene
 {
@@ -33,5 +34,14 @@ private:
 	WorldTransform worldTransform_ = {};
 
 	ViewProjection viewProjection_ = {};
+	bool isPushADrawFlag_ = false;
+
+	uint32_t pushADrawFlagCount_ = 0;
+
+	const static uint32_t enemyMax_ = 20;
+	unique_ptr<Game3dObject>enemys_[enemyMax_]{};
+	WorldTransform worldTransforms_[enemyMax_]{};
+	Vector3 rotateVelocity_[enemyMax_]{};
+	random_device seedGenerator;
 
 };

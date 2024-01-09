@@ -24,6 +24,7 @@ void Player::Initialize()
 	hitTexSprite_ = make_unique<Sprite>();
 	hitTexSprite_->Initialize(new SpriteBoxState);
 	hitTexSprite_->SetTexHandle(hitTexHandle_);
+	hitTexSprite_->SetBlendMode(BlendAdd);
 	hitSpriteWorldTransform_.Initialize();
 
 	lifeTexHandle = TextureManager::LoadTexture("HP/Life.png");

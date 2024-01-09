@@ -16,9 +16,6 @@ void FireParticle::Update(Vector3 pos)
 	position_ = pos;
 	const float kSize = 0.5f;
 
-	ImGui::Begin("particleSize");
-	ImGui::Text("%d", particle_->GetParticles().size());
-	ImGui::End();
 	particleList_ = particle_->begin();
 	int  count = 0;
 	for (Particle_param particle : particleList_)
@@ -31,7 +28,7 @@ void FireParticle::Update(Vector3 pos)
 
 		if (particle.color_.w <= 0.0f)
 		{
-			//particle.worldTransform_.buffer_.Reset();
+			
 			continue;
 		}
 

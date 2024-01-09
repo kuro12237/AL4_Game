@@ -52,10 +52,27 @@ void TitleScene::Initialize()
 
 	pushBWorldTransform_.Initialize();
 
+	leftFire_ = make_unique<FireParticle>();
+	leftFire_->Initialize({ 2.0f,0.5f,5.0f });
+	leftFireLight_.position = { 2.5f,0.5f,5.0f };
+	leftFireLight_.radious = 1.8f;
+	leftFireLight_.color = { 0,154.0f,255,255 };
+	leftFireLight_.intencity = 5.9f;
+	leftFireLight_.decay = 10.5f;
+
+	rightFire_ = make_unique<FireParticle>();
+	rightFire_->Initialize({ -2.0f,0.5f,5.0f });
+	rightFireLight_.position = { -2.5f,0.5f,5.0f };
+	rightFireLight_.radious = 1.8f;
+	rightFireLight_.color = { 0,154.0f,255,255 };
+	rightFireLight_.intencity = 5.9f;
+	rightFireLight_.decay = 10.5f;
 }
 
 void TitleScene::Update(GameManager* Scene)
 {
+
+	
 	SceneChange::Update();
 	if (SceneChange::GetEndFinishFlag())
 	{
@@ -72,8 +89,6 @@ void TitleScene::Update(GameManager* Scene)
 			if (joystate.Gamepad.wButtons & XINPUT_GAMEPAD_B)
 			{
 				SceneChange::Start();
-
-
 			}
 		}
 
@@ -96,6 +111,9 @@ void TitleScene::Update(GameManager* Scene)
 			pushBDrawFlagCount_ = 0;
 		}
 	}
+	LightingManager::AddList(leftFireLight_);
+	LightingManager::AddList(rightFireLight_);
+
 
 	ground_->Update();
 	skyBox_->Update();
@@ -104,7 +122,8 @@ void TitleScene::Update(GameManager* Scene)
 	leftEnemyWorldTransform_.UpdateMatrix();
 	rightEnemyWorldTransform_.UpdateMatrix();
 	pushBWorldTransform_.UpdateMatrix();
-	
+	leftFire_->Update({ 2.0f,0.5f,3.0f });
+	rightFire_->Update({ -2.0f,0.5f,3.0f });
 	viewProjection_.UpdateMatrix();
 }
 
@@ -122,11 +141,15 @@ void TitleScene::Object3dDraw()
 
 void TitleScene::Flont2dSpriteDraw()
 {
-	titleSprite_->Draw(titleWorldTransform_, viewProjection_);
-
+	
 	if (isPushBDrawFlag_)
 	{
 		pushBSprite_->Draw(pushBWorldTransform_, viewProjection_);
 	}
+
+	leftFire_->Draw(viewProjection_);
+	rightFire_->Draw(viewProjection_);
+	titleSprite_->Draw(titleWorldTransform_, viewProjection_);
+
 	SceneChange::Draw(viewProjection_);
 }

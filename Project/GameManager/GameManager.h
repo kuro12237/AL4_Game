@@ -5,7 +5,7 @@
 #include"GameScene.h"
 #include"TitleScene.h"
 #include"GameObject/SceneChange/SceneChange.h"
-
+#include"ClearScene.h"
 class GameManager
 {
 public:

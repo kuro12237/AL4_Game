@@ -5,7 +5,7 @@ GameManager::GameManager()
 	Cleyera::Initialize();
 	SceneChange::Initialize();
 
-	Scene_ = new TitleScene();
+	Scene_ = new ClearScene();
 	Scene_->Initialize();
 }
 

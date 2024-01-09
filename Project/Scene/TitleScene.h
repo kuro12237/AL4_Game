@@ -5,6 +5,7 @@
 #include"GameObject/SkyBox/SkyBox.h"
 #include"GameObject/Sun/Sun.h"
 #include"GameObject/SceneChange/SceneChange.h"
+#include"GameObject/FireParticles/FireParticle.h"
 
 class TitleScene :public IScene
 {
@@ -48,6 +49,9 @@ private:
 
 	bool isPushBDrawFlag_ = false;
 	uint32_t pushBDrawFlagCount_ = 0;
-
 	bool GameStop_ = true;
+	unique_ptr<FireParticle>leftFire_ = nullptr;
+	PointLight_param leftFireLight_ = {};
+	unique_ptr<FireParticle>rightFire_ = nullptr;
+	PointLight_param rightFireLight_ = {};
 };
