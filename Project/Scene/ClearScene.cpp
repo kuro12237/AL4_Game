@@ -34,7 +34,7 @@ void ClearScene::Initialize()
 	worldTransform_.translate.z = 10.0f;
 	worldTransform_.scale = { 0.5f,0.5f,0.5f };
 	worldTransform_.translate.y = 0.5f;
-
+	mt19937 randomEngine(seedGenerator());
 	for (uint32_t i = 0; i < enemyMax_; i++)
 	{
 		enemys_[i] = make_unique<Game3dObject>();
@@ -42,14 +42,35 @@ void ClearScene::Initialize()
 		enemys_[i]->SetModel(modelHandle);
 		enemys_[i]->UseLight(true);
 		worldTransforms_[i].Initialize();
+		
+		uniform_int_distribution<int>distributionColor(1, 4);
+		int32_t color = distributionColor(randomEngine);
+		uint32_t colorCode = 0xffffffff;
+		if (color == RED)
+		{
+			colorCode = 0xff7f7fff;
+		}
+		if (color == BLUE)
+		{
+			colorCode = 0x7f7fff;
+		}
+		if (color == GREEN)
+		{
+			colorCode = 0xbfff7fff;
+		}
+		if (color == WHITE)
+		{
+			colorCode = 0xffffffff;
+		}
+		enemys_[i]->SetColor(ColorConverter::ColorVec4Conversion(colorCode));
 
 		uniform_real_distribution<float>distributionRotate(-3.01f, 3.01f);
 		uniform_real_distribution<float>distributionRotateMove(-0.01f, 0.01f);
 
 		uniform_real_distribution<float>distributionVelocityX(-7.01f, 7.01f);
-		uniform_real_distribution<float>distributionVelocityY(-1.0f, 6.0f);
+		uniform_real_distribution<float>distributionVelocityY(-0.5f, 6.0f);
 		uniform_real_distribution<float>distributionVelocityZ(6.0f, 20.0f);
-		mt19937 randomEngine(seedGenerator());
+		
 		worldTransforms_[i].translate = { distributionVelocityX(randomEngine) ,distributionVelocityY(randomEngine) ,distributionVelocityZ(randomEngine) };
 		worldTransforms_[i].rotation = { distributionRotate(randomEngine),distributionRotate(randomEngine) ,distributionRotate(randomEngine) };
 		worldTransforms_[i].scale = { 0.3f,0.3f,0.3f };
@@ -106,7 +127,7 @@ void ClearScene::Back2dSpriteDraw()
 void ClearScene::Object3dDraw()
 {
 
-	gameObject_->Draw(worldTransform_, viewProjection_);
+	//gameObject_->Draw(worldTransform_, viewProjection_);
 	skyBox_->Draw(viewProjection_);
 	ground_->Draw(viewProjection_);
 

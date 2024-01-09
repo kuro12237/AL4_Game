@@ -38,7 +38,7 @@ private:
 
 	uint32_t pushADrawFlagCount_ = 0;
 
-	const static uint32_t enemyMax_ = 20;
+	const static uint32_t enemyMax_ = 30;
 	unique_ptr<Game3dObject>enemys_[enemyMax_]{};
 	WorldTransform worldTransforms_[enemyMax_]{};
 	Vector3 rotateVelocity_[enemyMax_]{};
