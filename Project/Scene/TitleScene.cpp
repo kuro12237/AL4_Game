@@ -88,6 +88,7 @@ void TitleScene::Update(GameManager* Scene)
 	leftEnemyWorldTransform_.UpdateMatrix();
 	rightEnemyWorldTransform_.UpdateMatrix();
 	pushBWorldTransform_.UpdateMatrix();
+	SceneChange::Update();
 	viewProjection_.UpdateMatrix();
 }
 
@@ -111,4 +112,5 @@ void TitleScene::Flont2dSpriteDraw()
 	{
 		pushBSprite_->Draw(pushBWorldTransform_, viewProjection_);
 	}
+	SceneChange::Draw(viewProjection_);
 }

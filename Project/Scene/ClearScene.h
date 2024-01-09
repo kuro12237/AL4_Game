@@ -27,7 +27,7 @@ private:
 	WorldTransform pushAWorldTrasform_ = {};
 
 	unique_ptr<Sprite>clearTextSprite_ = nullptr;
-	WorldTransform clearWorldTransform_ = {};
+	WorldTransform clearSpriteWorldTransform_ = {};
 
 	unique_ptr<Game3dObject>gameObject_ = nullptr;
 	WorldTransform worldTransform_ = {};

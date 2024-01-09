@@ -4,6 +4,7 @@
 #include"../DebugTools/Camera/DebugCamera.h"
 #include"GameScene.h"
 #include"TitleScene.h"
+#include"GameObject/SceneChange/SceneChange.h"
 
 class GameManager
 {

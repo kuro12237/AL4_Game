@@ -29,6 +29,13 @@ void GameOverScene::Initialize()
 	pushASprite_->Initialize(new SpriteBoxState);
 	pushASprite_->SetTexHandle(TextureManager::LoadTexture("PushA.png"));
 	pushAWorldTrasform_.Initialize();
+
+	uint32_t tex = TextureManager::LoadTexture("GameOverText.png");
+	OverTextSprite_ = make_unique<Sprite>();
+	OverTextSprite_->Initialize(new SpriteBoxState);
+	OverTextSprite_->SetTexHandle(tex);
+
+	OverTextWorldTransform_.Initialize();
 }
 
 void GameOverScene::Update(GameManager* Scene)
@@ -64,8 +71,9 @@ void GameOverScene::Object3dDraw()
 	skyBox_->Draw(viewProjection_);
 	ground_->Draw(viewProjection_);
 }
-\
+
 void GameOverScene::Flont2dSpriteDraw()
 {
+	OverTextSprite_->Draw(OverTextWorldTransform_, viewProjection_);
 	pushASprite_->Draw(pushAWorldTrasform_, viewProjection_);
 }

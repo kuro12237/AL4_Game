@@ -27,6 +27,9 @@ private:
 	unique_ptr<Game3dObject>gameObject_ = nullptr;
 	WorldTransform worldTransform_ = {};
 
+	unique_ptr<Sprite>OverTextSprite_ = nullptr;
+	WorldTransform OverTextWorldTransform_ = {};
+
 	unique_ptr<Sprite>pushASprite_ = nullptr;
 	WorldTransform pushAWorldTrasform_ = {};
 

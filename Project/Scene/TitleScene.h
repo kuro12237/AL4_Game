@@ -4,6 +4,7 @@
 #include"GameObject/Ground/Ground.h"
 #include"GameObject/SkyBox/SkyBox.h"
 #include"GameObject/Sun/Sun.h"
+#include"GameObject/SceneChange/SceneChange.h"
 
 class TitleScene :public IScene
 {

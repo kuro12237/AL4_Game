@@ -169,6 +169,9 @@
     <Filter Include="Project\Scene\GameOver">
       <UniqueIdentifier>{1ca1d977-b97c-4f89-9128-9048c05d5604}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Project\GameObject\SceneChange">
+      <UniqueIdentifier>{68abe24d-584c-401f-8505-6d7e737aff52}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="CLEYERA\Config\.editorconfig">
@@ -358,6 +361,9 @@
       <Filter>Project\Scene\GameOver</Filter>
     </ClCompile>
     <ClCompile Include="Project\GameObject\killCount\KillCount.cpp" />
+    <ClCompile Include="Project\GameObject\SceneChange\SceneChange.cpp">
+      <Filter>Project\GameObject\SceneChange</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CLEYERA\Utility\Pch\Pch.h">
@@ -590,6 +596,9 @@
     </ClInclude>
     <ClInclude Include="Project\GameObject\killCount\KillCount.h">
       <Filter>Project\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\GameObject\SceneChange\SceneChange.h">
+      <Filter>Project\GameObject\SceneChange</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

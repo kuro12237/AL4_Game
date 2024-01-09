@@ -3,7 +3,9 @@
 GameManager::GameManager()
 {
 	Cleyera::Initialize();
-	Scene_ = new GameOverScene();
+	SceneChange::Initialize();
+
+	Scene_ = new TitleScene();
 	Scene_->Initialize();
 }
 
@@ -11,6 +13,7 @@ GameManager::~GameManager()
 {
 	delete Scene_;
 	Cleyera::Finalize();
+	
 }
 
 void GameManager::Run()

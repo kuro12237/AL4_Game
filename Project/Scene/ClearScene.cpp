@@ -21,7 +21,7 @@ void ClearScene::Initialize()
 	clearTextSprite_ = make_unique<Sprite>();
 	clearTextSprite_->Initialize(new SpriteBoxState);
 	clearTextSprite_->SetTexHandle(TextureManager::LoadTexture("GameClearText.png"));
-	clearWorldTransform_.Initialize();
+	clearSpriteWorldTransform_.Initialize();
 
 	gameObject_ = make_unique<Game3dObject>();
 	gameObject_->Create();
@@ -51,7 +51,7 @@ void ClearScene::Update(GameManager* Scene)
 	skyBox_->Update();
 	ground_->Update();
 	pushAWorldTrasform_.UpdateMatrix();
-	clearWorldTransform_.UpdateMatrix();
+	clearSpriteWorldTransform_.UpdateMatrix();
 	worldTransform_.UpdateMatrix();
 	viewProjection_.UpdateMatrix();
 }
@@ -70,6 +70,6 @@ void ClearScene::Object3dDraw()
 
 void ClearScene::Flont2dSpriteDraw()
 {
-	clearTextSprite_->Draw(clearWorldTransform_, viewProjection_);
+	clearTextSprite_->Draw(clearSpriteWorldTransform_, viewProjection_);
 	pushASprite_->Draw(pushAWorldTrasform_, viewProjection_);
 }
