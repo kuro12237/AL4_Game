@@ -33,6 +33,8 @@ void AudioManager::Finalize()
 
 uint32_t AudioManager::SoundLoadWave(const char* filename)
 {
+
+
 	uint32_t index = 0;
 	if (ChackAudioDatas(filename))
 	{
