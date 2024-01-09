@@ -9,6 +9,7 @@
 #include"GameObject/HitParticle/HitParticle.h"
 #include"GameObject/Player/PlayerBulletLine.h"
 #include"Sprite/Sprite.h"
+#include"AudioManager.h"
 
 enum AnimationPlayerMove
 {
@@ -105,4 +106,7 @@ private:
 	WorldTransform hpTextWorldTransform_ = {};
 	unique_ptr<Sprite>hpSprite_[2] = {};
 	WorldTransform hpWorldTransform_[2]{};
+
+	uint32_t soundHandle_ = 0;
+	uint32_t hitSound_ = 0;
 };

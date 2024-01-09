@@ -67,6 +67,8 @@ void TitleScene::Initialize()
 	rightFireLight_.color = { 0,154.0f,255,255 };
 	rightFireLight_.intencity = 5.9f;
 	rightFireLight_.decay = 10.5f;
+
+	
 }
 
 void TitleScene::Update(GameManager* Scene)

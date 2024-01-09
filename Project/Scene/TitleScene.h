@@ -54,4 +54,6 @@ private:
 	PointLight_param leftFireLight_ = {};
 	unique_ptr<FireParticle>rightFire_ = nullptr;
 	PointLight_param rightFireLight_ = {};
+
+	uint32_t soundHandle_ = 0;
 };

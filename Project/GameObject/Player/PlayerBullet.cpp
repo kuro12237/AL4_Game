@@ -18,6 +18,7 @@ void PlayerBullet::Initialize(Vector3 pos, Vector3 v)
 	worldTransform_.rotation.x = std::atan2(heightY, velocityXZ);
 
 	velocity_ = v;
+	soundHandle_ = AudioManager::SoundLoadWave("Resources/Sounds/kill.wav");
 
 	SetCollosionAttribute(kCollisionAttributePlayer);
 	SetCollisionMask(kCollisionMaskPlayer);
@@ -49,6 +50,7 @@ void PlayerBullet::OnCollision(uint32_t id)
 {
 	id;
 	isAlive = false;
+	AudioManager::AudioPlayWave(soundHandle_);
 }
 
 Vector3 PlayerBullet::GetWorldPosition()

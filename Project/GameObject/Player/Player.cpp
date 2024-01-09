@@ -52,6 +52,8 @@ void Player::Initialize()
 	hpSpriteText_->SetTexHandle(hpTextTexHandle);
 	hpTextWorldTransform_.Initialize();
 
+	soundHandle_ = AudioManager::SoundLoadWave("Resources/Sounds/shot.wav");
+	hitSound_ = AudioManager::SoundLoadWave("Resources/Sounds/hit.wav");
 	SetSize({0.5f,0.5f,0.5f});
 
 	SetCollosionAttribute(kCollisionAttributePlayer);
@@ -121,6 +123,7 @@ void Player::OnCollision(uint32_t id)
 	if (!isHitFlag_)
 	{
 		Hp_--;
+		AudioManager::AudioPlayWave(hitSound_);
 		isHitFlag_ = true;
 	}
 }
@@ -237,6 +240,7 @@ void Player::Attack()
 			bullet->Initialize(worldTransform_.translate,RPNormalize);
 			bullets_.push_back(bullet);
 			isAttack_ = true;
+			AudioManager::AudioPlayWave(soundHandle_);
 		}
 	}
 

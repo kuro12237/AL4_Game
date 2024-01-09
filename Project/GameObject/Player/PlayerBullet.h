@@ -2,6 +2,7 @@
 #include"Game3dObject.h"
 #include"OBBCollider.h"
 #include"ColliderConfig.h"
+#include"AudioManager.h"
 
 class PlayerBullet : public OBBCollider
 {
@@ -29,4 +30,6 @@ private:
 
 	uint32_t timer_ = 0;
 	bool isAlive = true;
+
+	uint32_t soundHandle_ = 0;
 };
